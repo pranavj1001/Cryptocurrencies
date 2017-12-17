@@ -20,7 +20,7 @@ body {
   max-width: 1000px;
 }
 
-.container-margin-top {
+.container-margin-top, .content-margin-top {
   margin-top: 40px;
 }
 
@@ -34,4 +34,16 @@ body {
 
 .intro-heading-heavy {
   font-weight: 500;
+}
+
+.icon-margin-right {
+  margin-right: 20px;
+}
+
+.dark-gray-color {
+  color: #333;
+}
+
+#second {
+  display: none;
 }

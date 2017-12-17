@@ -11,6 +11,7 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/styles.css" rel="stylesheet">
@@ -19,7 +20,7 @@
   <body>
 
     <!-- Begin page content -->
-    <main role="main" class="container container-margin-top">
+    <main id="first" role="main" class="container container-margin-top">
       <div>
         <h2 class="intro-heading intro-heading-light">Crypto<span class="intro-heading-heavy">Currencies</span></h2>
       </div>
@@ -28,6 +29,20 @@
       <select id="currenciesList" onchange="showInfo(this.value);">
         <option value="" disabled selected>Choose one of the following..</option>
       </select>
+    </main>
+
+    <main id="second" role="main" class="container container-margin-top">
+      <div>
+        <h2 class="intro-heading intro-heading-light"><a class="dark-gray-color" onclick="goBack()"><i class="fa fa-chevron-left icon-margin-right" aria-hidden="true"></i></a>Crypto<span class="intro-heading-heavy">Currencies</span></h2>
+      </div>
+      <div class="row content-margin-top">
+        <div class="col-md-3">
+          One of three columns
+        </div>
+        <div class="col-md-6">
+          One of six columns
+        </div>
+      </div>
     </main>
 
     <footer class="footer">
@@ -59,7 +74,8 @@
       });
 
       showInfo = (value) => {
-        ipcRenderer.send('coin:select', currencies[value]);
+        $('#first').fadeOut();
+        setTimeout(() => $('#second').fadeIn(), 500);
       }
 
     </script>
