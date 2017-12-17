@@ -12,9 +12,11 @@ It also shows clean line graphs of historical values of cryptocurrencies wrt INR
 Electron enables you to create desktop applications with pure JavaScript by providing a runtime with rich native (operating system) APIs.
 For more info [click here](https://electronjs.org)
 
-## ScreenShot
+## Working
 
-Uploading...
+<p align="center">
+<img src="cryptocurrencies23fps.gif">
+</p>
 
 ## Features
 
