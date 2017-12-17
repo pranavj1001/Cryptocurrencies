@@ -43,6 +43,9 @@
           <p id="currencyAlgorithm"></p>
           <p id="currencyAbbreviation"></p>
           <p id="currencyTotalCoinSupply"></p>
+          <p id="currencyUSD"></p>
+          <p id="currencyEUR"></p>
+          <p id="currencyINR"></p>
         </div>
       </div>
     </main>
@@ -76,6 +79,17 @@
       });
 
       showInfo = (value) => {
+        let inr, usd, eur;
+        $.ajax({
+          type: "GET",
+          url: `https://min-api.cryptocompare.com/data/price?fsym=${currencies[value].Name}&tsyms=USD,EUR,INR`,
+          dataType: "json",
+          success: function(result){
+            inr = result.INR;
+            usd = result.USD;
+            eur = result.EUR;
+          }
+        });
         $('#first').fadeOut();
         setTimeout(() => $('#second').fadeIn(), 500);
         console.log(currencies[value]);
