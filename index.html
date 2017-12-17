@@ -39,7 +39,10 @@
         <div class="col-md-3" id="currencyImage">
         </div>
         <div class="col-md-6">
-          One of six columns
+          <p id="currencyName"></p>
+          <p id="currencyAlgorithm"></p>
+          <p id="currencyAbbreviation"></p>
+          <p id="currencyTotalCoinSupply"></p>
         </div>
       </div>
     </main>
@@ -76,9 +79,16 @@
         $('#first').fadeOut();
         setTimeout(() => $('#second').fadeIn(), 500);
         console.log(currencies[value]);
-        let imageURL = `<img src="https://www.cryptocompare.com${currencies[value].ImageUrl}">`;
+        const imageURL = `<img src="https://www.cryptocompare.com${currencies[value].ImageUrl}">`;
         $('#currencyImage').html(imageURL);
-
+        const name = `Name: ${currencies[value].FullName}`;
+        const algo = `Algorithm: ${currencies[value].Algorithm}`;
+        const abb = `Abbreviation: ${currencies[value].Name}`;
+        const supply = `Total Coin Supply: ${currencies[value].TotalCoinSupply}`;
+        $('#currencyName').html(name);
+        $('#currencyAlgorithm').html(algo);
+        $('#currencyAbbreviation').html(abb);
+        $('#currencyTotalCoinSupply').html(supply);
       }
 
       goBack = () => {
