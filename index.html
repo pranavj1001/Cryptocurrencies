@@ -25,7 +25,7 @@
       </div>
       <p class="lead">A cryptocurrency is a digital asset designed to work as a medium of exchange that uses cryptography to secure its transactions, to control the creation of additional units, and to verify the transfer of assets.</p>
       <h3>Select any Crytocurrency</h3>
-      <select id="currenciesList">
+      <select id="currenciesList" onchange="showInfo(this.value);">
         <option value="" disabled selected>Choose one of the following..</option>
       </select>
     </main>
@@ -40,6 +40,7 @@
     <script type="text/javascript">
 
       let options = '<option value="" disabled selected>Choose one of the following..</option>';
+      let currencies;
 
       $.ajax({
         type: "GET",
@@ -47,17 +48,17 @@
         dataType: "json",
         success: function(result){
           const { Data } = result;
+          currencies = Data;
           for (const key of Object.keys(Data)) {
-            options += `<option data-value="${Data[key]}">${Data[key].FullName}</option>`;
+            options += `<option value="${key}">${Data[key].FullName}</option>`;
           }
           $('#currenciesList').html(options);
         }
       });
 
-      $('#currenciesList').on('change', function() {
-        const selected = this;
-        console.log(selected);
-      });
+      showInfo = (value) => {
+        console.log(currencies[value]);
+      }
 
     </script>
 
