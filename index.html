@@ -46,6 +46,7 @@
           <p id="currencyINR"></p>
           <p id="currencyUSD"></p>
           <p id="currencyEUR"></p>
+          <canvas id="line-chart" width="100%" height="50"></canvas>
         </div>
       </div>
     </main>
@@ -57,6 +58,7 @@
     </footer>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script type="text/javascript">
       const electron = require('electron');
       const { ipcRenderer } = electron;
@@ -108,15 +110,24 @@
         $('#currencyAlgorithm').html(algo);
         $('#currencyAbbreviation').html(abb);
         $('#currencyTotalCoinSupply').html(supply);
-        showGraph(value);
+        buildDataset(value);
       }
 
-      showGraph = (value) => {
+      buildDataset = (value) => {
         const currentTimestamp = Math.floor(Date.now() / 1000);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const currentMonth = (new Date()).getMonth();
+        let monthsLabels = [];
+        monthsLabels[6] = months[currentMonth];
         let timestamps = [];
         for(let i = 1;i <= 6; i++){
           timestamps[i-1] = currentTimestamp - (i*2592000);
+          if((currentMonth-i) === -1 ){
+            currentMonth = 11 + i;
+          }
+          monthsLabels[6-i] = months[currentMonth-i];
         }
+        console.log(monthsLabels);
         let inrHistory = [];
         let usdHistory = [];
         let eurHistory = [];
@@ -176,7 +187,7 @@
                                     inrHistory.push(result[currencies[value].Name].INR);
                                     usdHistory.push(result[currencies[value].Name].USD);
                                     eurHistory.push(result[currencies[value].Name].EUR);
-                                    console.log(inrHistory, usdHistory, eurHistory);
+                                    plotGraph(inrHistory, usdHistory, eurHistory, monthsLabels, value);
                                   }
                                 });
                               }
@@ -189,6 +200,38 @@
                 });
               }
             });
+          }
+        });
+      }
+
+      plotGraph = (inrHistory, usdHistory, eurHistory, monthsLabels, value) => {
+        new Chart(document.getElementById("line-chart"), {
+          type: 'line',
+          data: {
+            labels: monthsLabels,
+            datasets: [{
+                data: inrHistory,
+                label: "INR",
+                borderColor: "#3e95cd",
+                fill: false
+              }, {
+                data: usdHistory,
+                label: "USD",
+                borderColor: "#8e5ea2",
+                fill: false
+              }, {
+                data: eurHistory,
+                label: "EUR",
+                borderColor: "#3cba9f",
+                fill: false
+              }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: `Value of ${currencies[value].Name} in previous 6 months`
+            }
           }
         });
       }
