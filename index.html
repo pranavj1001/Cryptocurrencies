@@ -47,22 +47,22 @@
           <p id="currencyUSD"></p>
           <p id="currencyEUR"></p>
           <label class="custom-control custom-radio">
-            <input id="radio1" type="radio" class="custom-control-input" onclick="showGraph(this)">
+            <input id="radio1" name="radio" type="radio" class="custom-control-input" onclick="showGraph(this)">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">Show INR Graph</span>
           </label>
           <label class="custom-control custom-radio">
-            <input id="radio2" type="radio" class="custom-control-input" onclick="showGraph(this)">
+            <input id="radio2" name="radio" type="radio" class="custom-control-input" onclick="showGraph(this)">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">Show USD Graph</span>
           </label>
           <label class="custom-control custom-radio">
-            <input id="radio3" type="radio" class="custom-control-input" onclick="showGraph(this)">
+            <input id="radio3" name="radio" type="radio" class="custom-control-input" onclick="showGraph(this)">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">Show EUR Grap</span>
           </label>
           <label class="custom-control custom-radio">
-            <input id="radio4" type="radio" class="custom-control-input" onclick="showGraph(this)">
+            <input id="radio4" name="radio" type="radio" class="custom-control-input" onclick="showGraph(this)">
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">Show USD and EUR Graph</span>
           </label>
@@ -91,6 +91,7 @@
       let inrHistory = [];
       let usdHistory = [];
       let eurHistory = [];
+      var chart;
 
       $.ajax({
         type: "GET",
