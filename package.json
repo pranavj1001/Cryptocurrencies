@@ -1,0 +1,14 @@
+{
+  "name": "ederproject",
+  "version": "1.0.0",
+  "description": "This application displays information about cryptocurrencies",
+  "main": "index.js",
+  "scripts": {
+    "electron": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^1.7.9"
+  }
+}
