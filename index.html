@@ -46,6 +46,26 @@
           <p id="currencyINR"></p>
           <p id="currencyUSD"></p>
           <p id="currencyEUR"></p>
+          <label class="custom-control custom-radio">
+            <input id="radio1" type="radio" class="custom-control-input" onclick="showGraph(this)">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Show INR Graph</span>
+          </label>
+          <label class="custom-control custom-radio">
+            <input id="radio2" type="radio" class="custom-control-input" onclick="showGraph(this)">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Show USD Graph</span>
+          </label>
+          <label class="custom-control custom-radio">
+            <input id="radio3" type="radio" class="custom-control-input" onclick="showGraph(this)">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Show EUR Grap</span>
+          </label>
+          <label class="custom-control custom-radio">
+            <input id="radio4" type="radio" class="custom-control-input" onclick="showGraph(this)">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">Show USD and EUR Graph</span>
+          </label>
           <canvas id="line-chart" width="100%" height="50"></canvas>
         </div>
       </div>
@@ -53,7 +73,7 @@
 
     <footer class="footer">
       <div class="container">
-        <span class="text-muted">Developed by Pranav Jain</span>
+        <span class="text-muted">Developed and Designed by Pranav Jain</span>
       </div>
     </footer>
 
@@ -65,6 +85,12 @@
 
       let options = '<option value="" disabled selected>Choose one of the following..</option>';
       let currencies;
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      let monthsLabels = [];
+      let currentElementId;
+      let inrHistory = [];
+      let usdHistory = [];
+      let eurHistory = [];
 
       $.ajax({
         type: "GET",
@@ -82,17 +108,18 @@
 
       showInfo = (value) => {
         let inr, usd, eur;
+        currentElementId = value;
         $.ajax({
           type: "GET",
-          url: `https://min-api.cryptocompare.com/data/price?fsym=${currencies[value].Name}&tsyms=USD,EUR,INR`,
+          url: `https://min-api.cryptocompare.com/data/price?fsym=${currentElementId}&tsyms=USD,EUR,INR`,
           dataType: "json",
           success: function(result){
             inr = result.INR.toString();
             usd = result.USD.toString();
             eur = result.EUR.toString();
-            inr = `1 ${currencies[value].Name} = ${inr} INR`;
-            usd = `1 ${currencies[value].Name} = ${usd} USD`;
-            eur = `1 ${currencies[value].Name} = ${eur} EUR`;
+            inr = `1 ${currentElementId} = ${inr} INR`;
+            usd = `1 ${currentElementId} = ${usd} USD`;
+            eur = `1 ${currentElementId} = ${eur} EUR`;
             $('#currencyINR').html(inr);
             $('#currencyUSD').html(usd);
             $('#currencyEUR').html(eur);
@@ -104,7 +131,7 @@
         $('#currencyImage').html(imageURL);
         const name = `Name: ${currencies[value].FullName}`;
         const algo = `Algorithm: ${currencies[value].Algorithm}`;
-        const abb = `Abbreviation: ${currencies[value].Name}`;
+        const abb = `Abbreviation: ${currentElementId}`;
         const supply = `Total Coin Supply: ${currencies[value].TotalCoinSupply}`;
         $('#currencyName').html(name);
         $('#currencyAlgorithm').html(algo);
@@ -113,11 +140,16 @@
         buildDataset(value);
       }
 
-      buildDataset = (value) => {
+      showGraph = (element) => {
+        console.log(element.attributes);
+        if(element.attributes.id.value === 'radio1'){
+          plotINRGraph();
+        }
+      }
+
+      buildDataset = () => {
         const currentTimestamp = Math.floor(Date.now() / 1000);
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const currentMonth = (new Date()).getMonth();
-        let monthsLabels = [];
         monthsLabels[6] = months[currentMonth];
         let timestamps = [];
         for(let i = 1;i <= 6; i++){
@@ -127,67 +159,63 @@
           }
           monthsLabels[6-i] = months[currentMonth-i];
         }
-        console.log(monthsLabels);
-        let inrHistory = [];
-        let usdHistory = [];
-        let eurHistory = [];
         $.ajax({
           type: "GET",
-          url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[5]}`,
+          url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currentElementId}&tsyms=INR,USD,EUR&ts=${timestamps[5]}`,
           dataType: "json",
           success: function(result){
-            inrHistory.push(result[currencies[value].Name].INR);
-            usdHistory.push(result[currencies[value].Name].USD);
-            eurHistory.push(result[currencies[value].Name].EUR);
+            inrHistory.push(result[currentElementId].INR);
+            usdHistory.push(result[currentElementId].USD);
+            eurHistory.push(result[currentElementId].EUR);
             $.ajax({
               type: "GET",
-              url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[4]}`,
+              url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currentElementId}&tsyms=INR,USD,EUR&ts=${timestamps[4]}`,
               dataType: "json",
               success: function(result){
-                inrHistory.push(result[currencies[value].Name].INR);
-                usdHistory.push(result[currencies[value].Name].USD);
-                eurHistory.push(result[currencies[value].Name].EUR);
+                inrHistory.push(result[currentElementId].INR);
+                usdHistory.push(result[currentElementId].USD);
+                eurHistory.push(result[currentElementId].EUR);
                 $.ajax({
                   type: "GET",
-                  url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[3]}`,
+                  url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currentElementId}&tsyms=INR,USD,EUR&ts=${timestamps[3]}`,
                   dataType: "json",
                   success: function(result){
-                    inrHistory.push(result[currencies[value].Name].INR);
-                    usdHistory.push(result[currencies[value].Name].USD);
-                    eurHistory.push(result[currencies[value].Name].EUR);
+                    inrHistory.push(result[currentElementId].INR);
+                    usdHistory.push(result[currentElementId].USD);
+                    eurHistory.push(result[currentElementId].EUR);
                     $.ajax({
                       type: "GET",
-                      url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[2]}`,
+                      url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currentElementId}&tsyms=INR,USD,EUR&ts=${timestamps[2]}`,
                       dataType: "json",
                       success: function(result){
-                        inrHistory.push(result[currencies[value].Name].INR);
-                        usdHistory.push(result[currencies[value].Name].USD);
-                        eurHistory.push(result[currencies[value].Name].EUR);
+                        inrHistory.push(result[currentElementId].INR);
+                        usdHistory.push(result[currentElementId].USD);
+                        eurHistory.push(result[currentElementId].EUR);
                         $.ajax({
                           type: "GET",
-                          url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[1]}`,
+                          url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currentElementId}&tsyms=INR,USD,EUR&ts=${timestamps[1]}`,
                           dataType: "json",
                           success: function(result){
-                            inrHistory.push(result[currencies[value].Name].INR);
-                            usdHistory.push(result[currencies[value].Name].USD);
-                            eurHistory.push(result[currencies[value].Name].EUR);
+                            inrHistory.push(result[currentElementId].INR);
+                            usdHistory.push(result[currentElementId].USD);
+                            eurHistory.push(result[currentElementId].EUR);
                             $.ajax({
                               type: "GET",
-                              url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[0]}`,
+                              url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currentElementId}&tsyms=INR,USD,EUR&ts=${timestamps[0]}`,
                               dataType: "json",
                               success: function(result){
-                                inrHistory.push(result[currencies[value].Name].INR);
-                                usdHistory.push(result[currencies[value].Name].USD);
-                                eurHistory.push(result[currencies[value].Name].EUR);
+                                inrHistory.push(result[currentElementId].INR);
+                                usdHistory.push(result[currentElementId].USD);
+                                eurHistory.push(result[currentElementId].EUR);
                                 $.ajax({
                                   type: "GET",
-                                  url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${currentTimestamp}`,
+                                  url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currentElementId}&tsyms=INR,USD,EUR&ts=${currentTimestamp}`,
                                   dataType: "json",
                                   success: function(result){
-                                    inrHistory.push(result[currencies[value].Name].INR);
-                                    usdHistory.push(result[currencies[value].Name].USD);
-                                    eurHistory.push(result[currencies[value].Name].EUR);
-                                    plotGraph(inrHistory, usdHistory, eurHistory, monthsLabels, value);
+                                    inrHistory.push(result[currentElementId].INR);
+                                    usdHistory.push(result[currentElementId].USD);
+                                    eurHistory.push(result[currentElementId].EUR);
+                                    plotGraph();
                                   }
                                 });
                               }
@@ -204,7 +232,7 @@
         });
       }
 
-      plotGraph = (inrHistory, usdHistory, eurHistory, monthsLabels, value) => {
+      plotGraph = () => {
         new Chart(document.getElementById("line-chart"), {
           type: 'line',
           data: {
@@ -231,10 +259,43 @@
           options: {
             title: {
               display: true,
-              text: `Value of ${currencies[value].Name} in previous 6 months`
+              text: `Value of ${currentElementId} in previous 6 months`
             }
           }
         });
+      }
+
+      plotINRGraph = () => {
+        $('#line-chart').fadeOut();
+        setTimeout(() => {
+          $('#line-chart').fadeIn();
+          new Chart(document.getElementById("line-chart"), {
+            type: 'line',
+            data: {
+              labels: monthsLabels,
+              datasets: [{
+                  data: inrHistory,
+                  label: "INR",
+                  borderColor: "#3e95cd",
+                  fill: false
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: `Value of ${currentElementId} in previous 6 months`
+              }
+            }
+          });}, 500);
+      }
+
+      plotUSDGraph = () => {
+
+      }
+
+      plotEURGraph = () => {
+
       }
 
       goBack = () => {
