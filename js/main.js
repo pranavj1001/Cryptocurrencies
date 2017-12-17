@@ -194,8 +194,6 @@ plotGraph = () => {
 }
 
 plotINRGraph = () => {
-  $('#line-chart').fadeOut();
-  $('#line-chart').fadeIn();
   if(chart !== undefined){
     chart.destroy();
   }
@@ -221,8 +219,6 @@ plotINRGraph = () => {
 }
 
 plotUSDGraph = () => {
-  $('#line-chart').fadeOut();
-  $('#line-chart').fadeIn();
   if(chart !== undefined){
     chart.destroy();
   }
@@ -248,8 +244,6 @@ plotUSDGraph = () => {
 }
 
 plotEURGraph = () => {
-  $('#line-chart').fadeOut();
-  $('#line-chart').fadeIn();
   if(chart !== undefined){
     chart.destroy();
   }
