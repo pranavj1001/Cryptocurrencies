@@ -47,3 +47,10 @@ body {
 #second {
   display: none;
 }
+
+#currencyImage img {
+  height: auto;
+  width: auto;
+  max-height: 200px;
+  max-width: 200px;
+}

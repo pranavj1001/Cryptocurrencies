@@ -36,8 +36,7 @@
         <h2 class="intro-heading intro-heading-light"><a class="dark-gray-color" onclick="goBack()"><i class="fa fa-chevron-left icon-margin-right" aria-hidden="true"></i></a>Crypto<span class="intro-heading-heavy">Currencies</span></h2>
       </div>
       <div class="row content-margin-top">
-        <div class="col-md-3">
-          One of three columns
+        <div class="col-md-3" id="currencyImage">
         </div>
         <div class="col-md-6">
           One of six columns
@@ -76,6 +75,15 @@
       showInfo = (value) => {
         $('#first').fadeOut();
         setTimeout(() => $('#second').fadeIn(), 500);
+        console.log(currencies[value]);
+        let imageURL = `<img src="https://www.cryptocompare.com${currencies[value].ImageUrl}">`;
+        $('#currencyImage').html(imageURL);
+
+      }
+
+      goBack = () => {
+        $('#second').fadeOut();
+        setTimeout(() => $('#first').fadeIn(), 500);
       }
 
     </script>
