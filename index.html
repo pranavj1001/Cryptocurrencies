@@ -36,16 +36,16 @@
         <h2 class="intro-heading intro-heading-light"><a class="dark-gray-color" onclick="goBack()"><i class="fa fa-chevron-left icon-margin-right" aria-hidden="true"></i></a>Crypto<span class="intro-heading-heavy">Currencies</span></h2>
       </div>
       <div class="row content-margin-top">
-        <div class="col-md-3" id="currencyImage">
+        <div class="col-sm-3" id="currencyImage">
         </div>
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <p id="currencyName"></p>
           <p id="currencyAlgorithm"></p>
           <p id="currencyAbbreviation"></p>
           <p id="currencyTotalCoinSupply"></p>
+          <p id="currencyINR"></p>
           <p id="currencyUSD"></p>
           <p id="currencyEUR"></p>
-          <p id="currencyINR"></p>
         </div>
       </div>
     </main>
@@ -85,15 +85,21 @@
           url: `https://min-api.cryptocompare.com/data/price?fsym=${currencies[value].Name}&tsyms=USD,EUR,INR`,
           dataType: "json",
           success: function(result){
-            inr = result.INR;
-            usd = result.USD;
-            eur = result.EUR;
+            inr = result.INR.toString();
+            usd = result.USD.toString();
+            eur = result.EUR.toString();
+            inr = `1 ${currencies[value].Name} = ${inr} INR`;
+            usd = `1 ${currencies[value].Name} = ${usd} USD`;
+            eur = `1 ${currencies[value].Name} = ${eur} EUR`;
+            $('#currencyINR').html(inr);
+            $('#currencyUSD').html(usd);
+            $('#currencyEUR').html(eur);
           }
         });
         $('#first').fadeOut();
         setTimeout(() => $('#second').fadeIn(), 500);
         console.log(currencies[value]);
-        const imageURL = `<img src="https://www.cryptocompare.com${currencies[value].ImageUrl}">`;
+        const imageURL = `<img class="img-responsive" src="https://www.cryptocompare.com${currencies[value].ImageUrl}">`;
         $('#currencyImage').html(imageURL);
         const name = `Name: ${currencies[value].FullName}`;
         const algo = `Algorithm: ${currencies[value].Algorithm}`;
