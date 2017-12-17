@@ -98,7 +98,6 @@
         });
         $('#first').fadeOut();
         setTimeout(() => $('#second').fadeIn(), 500);
-        console.log(currencies[value]);
         const imageURL = `<img class="img-responsive" src="https://www.cryptocompare.com${currencies[value].ImageUrl}">`;
         $('#currencyImage').html(imageURL);
         const name = `Name: ${currencies[value].FullName}`;
@@ -109,6 +108,15 @@
         $('#currencyAlgorithm').html(algo);
         $('#currencyAbbreviation').html(abb);
         $('#currencyTotalCoinSupply').html(supply);
+        showGraph(value);
+      }
+
+      showGraph = (value) => {
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        let timestamps = [];
+        for(let i = 1;i <= 6; i++){
+          timestamps[i-1] = currentTimestamp - (i*2592000);
+        }
       }
 
       goBack = () => {
