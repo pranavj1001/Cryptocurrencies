@@ -66,7 +66,7 @@
             <span class="custom-control-indicator"></span>
             <span class="custom-control-description">Show USD and EUR Graph</span>
           </label>
-          <canvas id="line-chart" width="100%" height="50"></canvas>
+          <canvas class="graph-margin-bottom" id="line-chart" width="100%" height="50"></canvas>
         </div>
       </div>
     </main>
@@ -240,7 +240,10 @@
       }
 
       plotGraph = () => {
-        new Chart(document.getElementById("line-chart"), {
+        if(chart !== undefined){
+          chart.destroy();
+        }
+        chart = new Chart(document.getElementById("line-chart"), {
           type: 'line',
           data: {
             labels: monthsLabels,
@@ -274,77 +277,83 @@
 
       plotINRGraph = () => {
         $('#line-chart').fadeOut();
-        setTimeout(() => {
-          $('#line-chart').fadeIn();
-          new Chart(document.getElementById("line-chart"), {
-            type: 'line',
-            data: {
-              labels: monthsLabels,
-              datasets: [{
-                  data: inrHistory,
-                  label: "INR",
-                  borderColor: "#3e95cd",
-                  fill: false
-                }
-              ]
-            },
-            options: {
-              title: {
-                display: true,
-                text: `Value of ${currentElementId} in previous 6 months`
+        $('#line-chart').fadeIn();
+        if(chart !== undefined){
+          chart.destroy();
+        }
+        chart = new Chart(document.getElementById("line-chart"), {
+          type: 'line',
+          data: {
+            labels: monthsLabels,
+            datasets: [{
+                data: inrHistory,
+                label: "INR",
+                borderColor: "#3e95cd",
+                fill: false
               }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: `Value of ${currentElementId} in previous 6 months`
             }
-          });}, 500);
+          }
+        });
       }
 
       plotUSDGraph = () => {
         $('#line-chart').fadeOut();
-        setTimeout(() => {
-          $('#line-chart').fadeIn();
-          new Chart(document.getElementById("line-chart"), {
-            type: 'line',
-            data: {
-              labels: monthsLabels,
-              datasets: [{
-                  data: usdHistory,
-                  label: "USD",
-                  borderColor: "#3e95cd",
-                  fill: false
-                }
-              ]
-            },
-            options: {
-              title: {
-                display: true,
-                text: `Value of ${currentElementId} in previous 6 months`
+        $('#line-chart').fadeIn();
+        if(chart !== undefined){
+          chart.destroy();
+        }
+        chart = new Chart(document.getElementById("line-chart"), {
+          type: 'line',
+          data: {
+            labels: monthsLabels,
+            datasets: [{
+                data: usdHistory,
+                label: "USD",
+                borderColor: "#3e95cd",
+                fill: false
               }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: `Value of ${currentElementId} in previous 6 months`
             }
-          });}, 500);
+          }
+        });
       }
 
       plotEURGraph = () => {
         $('#line-chart').fadeOut();
-        setTimeout(() => {
-          $('#line-chart').fadeIn();
-          new Chart(document.getElementById("line-chart"), {
-            type: 'line',
-            data: {
-              labels: monthsLabels,
-              datasets: [{
-                  data: eurHistory,
-                  label: "EUR",
-                  borderColor: "#3e95cd",
-                  fill: false
-                }
-              ]
-            },
-            options: {
-              title: {
-                display: true,
-                text: `Value of ${currentElementId} in previous 6 months`
+        $('#line-chart').fadeIn();
+        if(chart !== undefined){
+          chart.destroy();
+        }
+        chart = new Chart(document.getElementById("line-chart"), {
+          type: 'line',
+          data: {
+            labels: monthsLabels,
+            datasets: [{
+                data: eurHistory,
+                label: "EUR",
+                borderColor: "#3e95cd",
+                fill: false
               }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: `Value of ${currentElementId} in previous 6 months`
             }
-          });}, 500);
+          }
+        });
       }
 
       goBack = () => {
