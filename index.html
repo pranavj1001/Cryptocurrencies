@@ -38,6 +38,8 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
+      const electron = require('electron');
+      const { ipcRenderer } = electron;
 
       let options = '<option value="" disabled selected>Choose one of the following..</option>';
       let currencies;
@@ -58,6 +60,7 @@
 
       showInfo = (value) => {
         console.log(currencies[value]);
+        ipcRenderer.send('coin:select', currencies[value]);
       }
 
     </script>
