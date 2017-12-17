@@ -117,6 +117,19 @@
         for(let i = 1;i <= 6; i++){
           timestamps[i-1] = currentTimestamp - (i*2592000);
         }
+        let inrHistory = [];
+        let usdHistory = [];
+        let eurHistory = [];
+        $.ajax({
+          type: "GET",
+          url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[5]}`,
+          dataType: "json",
+          success: function(result){
+            inrHistory.push(result[currencies[value].Name].INR);
+            usdHistory.push(result[currencies[value].Name].USD);
+            eurHistory.push(result[currencies[value].Name].EUR);
+          }
+        });
       }
 
       goBack = () => {
