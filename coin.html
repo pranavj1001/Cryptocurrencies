@@ -23,11 +23,7 @@
       <div>
         <h2 class="intro-heading intro-heading-light">Crypto<span class="intro-heading-heavy">Currencies</span></h2>
       </div>
-      <p class="lead">A cryptocurrency is a digital asset designed to work as a medium of exchange that uses cryptography to secure its transactions, to control the creation of additional units, and to verify the transfer of assets.</p>
-      <h3>Select any Crytocurrency</h3>
-      <select id="currenciesList" onchange="showInfo(this.value);">
-        <option value="" disabled selected>Choose one of the following..</option>
-      </select>
+      <p class="lead">Hey there</h3>
     </main>
 
     <footer class="footer">
@@ -41,26 +37,9 @@
       const electron = require('electron');
       const { ipcRenderer } = electron;
 
-      let options = '<option value="" disabled selected>Choose one of the following..</option>';
-      let currencies;
-
-      $.ajax({
-        type: "GET",
-        url: "https://min-api.cryptocompare.com/data/all/coinlist",
-        dataType: "json",
-        success: function(result){
-          const { Data } = result;
-          currencies = Data;
-          for (const key of Object.keys(Data)) {
-            options += `<option value="${key}">${Data[key].FullName}</option>`;
-          }
-          $('#currenciesList').html(options);
-        }
+      ipcRenderer.on('coin:data', (event, coinData) => {
+        console.log(coinData);
       });
-
-      showInfo = (value) => {
-        ipcRenderer.send('coin:select', currencies[value]);
-      }
 
     </script>
 
