@@ -128,6 +128,67 @@
             inrHistory.push(result[currencies[value].Name].INR);
             usdHistory.push(result[currencies[value].Name].USD);
             eurHistory.push(result[currencies[value].Name].EUR);
+            $.ajax({
+              type: "GET",
+              url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[4]}`,
+              dataType: "json",
+              success: function(result){
+                inrHistory.push(result[currencies[value].Name].INR);
+                usdHistory.push(result[currencies[value].Name].USD);
+                eurHistory.push(result[currencies[value].Name].EUR);
+                $.ajax({
+                  type: "GET",
+                  url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[3]}`,
+                  dataType: "json",
+                  success: function(result){
+                    inrHistory.push(result[currencies[value].Name].INR);
+                    usdHistory.push(result[currencies[value].Name].USD);
+                    eurHistory.push(result[currencies[value].Name].EUR);
+                    $.ajax({
+                      type: "GET",
+                      url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[2]}`,
+                      dataType: "json",
+                      success: function(result){
+                        inrHistory.push(result[currencies[value].Name].INR);
+                        usdHistory.push(result[currencies[value].Name].USD);
+                        eurHistory.push(result[currencies[value].Name].EUR);
+                        $.ajax({
+                          type: "GET",
+                          url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[1]}`,
+                          dataType: "json",
+                          success: function(result){
+                            inrHistory.push(result[currencies[value].Name].INR);
+                            usdHistory.push(result[currencies[value].Name].USD);
+                            eurHistory.push(result[currencies[value].Name].EUR);
+                            $.ajax({
+                              type: "GET",
+                              url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${timestamps[0]}`,
+                              dataType: "json",
+                              success: function(result){
+                                inrHistory.push(result[currencies[value].Name].INR);
+                                usdHistory.push(result[currencies[value].Name].USD);
+                                eurHistory.push(result[currencies[value].Name].EUR);
+                                $.ajax({
+                                  type: "GET",
+                                  url: `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${currencies[value].Name}&tsyms=INR,USD,EUR&ts=${currentTimestamp}`,
+                                  dataType: "json",
+                                  success: function(result){
+                                    inrHistory.push(result[currencies[value].Name].INR);
+                                    usdHistory.push(result[currencies[value].Name].USD);
+                                    eurHistory.push(result[currencies[value].Name].EUR);
+                                    console.log(inrHistory, usdHistory, eurHistory);
+                                  }
+                                });
+                              }
+                            });
+                          }
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
           }
         });
       }
