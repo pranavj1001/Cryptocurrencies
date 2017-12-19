@@ -9,7 +9,7 @@ let currentElementId;
 let inrHistory = [];
 let usdHistory = [];
 let eurHistory = [];
-var chart;
+let chart;
 
 $.ajax({
   type: "GET",
@@ -56,11 +56,10 @@ showInfo = (value) => {
   $('#currencyAlgorithm').html(algo);
   $('#currencyAbbreviation').html(abb);
   $('#currencyTotalCoinSupply').html(supply);
-  buildDataset(value);
+  buildDataset();
 }
 
 showGraph = (element) => {
-  console.log(element.attributes);
   if(element.attributes.id.value === 'radio1'){
     plotINRGraph();
   }else if(element.attributes.id.value === 'radio2'){
@@ -77,6 +76,9 @@ buildDataset = () => {
   const currentMonth = (new Date()).getMonth();
   monthsLabels[6] = months[currentMonth];
   let timestamps = [];
+  inrHistory = [];
+  usdHistory = [];
+  eurHistory = [];
   for(let i = 1;i <= 6; i++){
     timestamps[i-1] = currentTimestamp - (i*2592000);
     if((currentMonth-i) === -1 ){
@@ -271,4 +273,5 @@ plotEURGraph = () => {
 goBack = () => {
   $('#second').fadeOut();
   setTimeout(() => $('#first').fadeIn(), 500);
+  chart.destroy();
 }
