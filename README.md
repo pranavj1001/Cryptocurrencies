@@ -1,10 +1,10 @@
-# cryptocurrencies
+# Cryptocurrencies
 An electron app to view info about different cryptocurrencies.
 
 Hey there,
 
 This is an electron application. It shows you information about different cryptocurrencies out there. 
-It gathers information from **crypto compare** api. 
+It gathers information from [**crypto compare**](https://www.cryptocompare.com/api/) api. 
 It also shows clean line graphs of historical values of cryptocurrencies wrt INR (Indian Rupee), USD (United States Dollar) and EUR (Euro) using **chart.js**
 
 ## What is Electron js?
