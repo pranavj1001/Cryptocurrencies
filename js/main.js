@@ -73,7 +73,7 @@ showGraph = (element) => {
 
 buildDataset = () => {
   const currentTimestamp = Math.floor(Date.now() / 1000);
-  const currentMonth = (new Date()).getMonth();
+  let currentMonth = (new Date()).getMonth();
   monthsLabels[6] = months[currentMonth];
   let timestamps = [];
   inrHistory = [];
